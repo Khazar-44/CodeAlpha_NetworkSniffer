@@ -1,16 +1,12 @@
 #!/usr/bin/env python3
 
 from scapy.all import *
-import argparse # Import the argparse module
+import argparse
 
 def packet_callback(packet):
-    """
-    This function will be called for every sniffed packet.
-    You can analyze and process the packet here.
-    """
+
     print(f"[*] Packet Captured: {packet.summary()}")
 
-    # Example: Check for specific protocols
     if packet.haslayer(IP):
         ip_layer = packet[IP]
         print(f"  Source IP: {ip_layer.src}")
@@ -30,7 +26,6 @@ def packet_callback(packet):
     print("-" * 50)
 
 def main():
-    # Set up argument parser
     parser = argparse.ArgumentParser(description="Simple network sniffer using Scapy.")
     parser.add_argument("-i", "--interface", help="Specify the network interface to sniff on (e.g., eth0, wlan0).")
     parser.add_argument("-p", "--protocol", choices=['tcp', 'udp'], help="Filter packets by protocol (tcp or udp).")
@@ -39,7 +34,6 @@ def main():
     print("[*] Starting network sniffer...")
     print("[*] Press Ctrl+C to stop.")
 
-    # Construct the BPF filter
     bpf_filter = args.protocol if args.protocol else ""
 
     try:
